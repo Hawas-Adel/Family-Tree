@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Family_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Gender" Type="Boolean" Nullable="false" />
+    <Property Name="FatherID" Type="Int32" />
+    <Property Name="MotherID" Type="Int32" />
+    <NavigationProperty Name="People1" Relationship="Self.FatherID_fk" FromRole="People" ToRole="People1" />
+    <NavigationProperty Name="Person1" Relationship="Self.FatherID_fk" FromRole="People1" ToRole="People" />
+    <NavigationProperty Name="People11" Relationship="Self.MotherID_fk" FromRole="People" ToRole="People1" />
+    <NavigationProperty Name="Person2" Relationship="Self.MotherID_fk" FromRole="People1" ToRole="People" />
+  </EntityType>
+  <Association Name="FatherID_fk">
+    <End Role="People" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="People1" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="People1">
+        <PropertyRef Name="FatherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MotherID_fk">
+    <End Role="People" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="People1" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="People1">
+        <PropertyRef Name="MotherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Family_DBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <AssociationSet Name="FatherID_fk" Association="Self.FatherID_fk">
+      <End Role="People" EntitySet="People" />
+      <End Role="People1" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="MotherID_fk" Association="Self.MotherID_fk">
+      <End Role="People" EntitySet="People" />
+      <End Role="People1" EntitySet="People" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

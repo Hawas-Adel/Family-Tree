@@ -1,0 +1,99 @@
+﻿@model (Person Person, List<(Person Relative, string Relation)> Relatives)
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Person</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.Gender)
+        </dt>
+
+        <dd>
+            @(Model.Person.Gender? "Female" : "Male")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.Person1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.Person1.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.Person2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.Person2.FirstName)
+        </dd>
+
+    </dl>
+</div>
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Person.FirstName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Person.LastName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Person.Gender)
+		</th>
+		<th>
+			Relation
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model.Relatives)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Relative.FirstName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Relative.LastName)
+			</td>
+			<td>
+				@(item.Relative.Gender ? "Female" : "Male")
+			</td>
+			<td>
+				@(item.Relation)
+			</td>
+			<td>
+				@Html.ActionLink("Details", "Details", new { id = item.Relative.ID })
+			</td>
+		</tr>
+	}
+
+</table>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Item1.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
